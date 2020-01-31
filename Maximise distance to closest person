@@ -1,0 +1,50 @@
+class Pair{
+    int idx, val;
+    
+    Pair(int idx, int val){
+        this.idx = idx;
+        this.val = val;
+    }
+    
+    
+}
+class Solution {
+    public int maxDistToClosest(int[] seats) {
+     
+        
+        Stack<Pair> stack = new Stack<>();
+        
+        int ans = Integer.MIN_VALUE;
+        int oneleftidx = -1;
+        
+        for(int i=0; i<seats.length; i++){
+            
+            if(seats[i]==1){
+
+              
+              while(!stack.isEmpty()){
+                  ans = Math.max(ans, Math.min(i - stack.peek().idx, stack.peek().val));
+                  stack.pop();
+              }
+                
+                oneleftidx = i; 
+            }
+            else{
+                
+                if(oneleftidx != -1)
+                    stack.push(new Pair(i, i-oneleftidx));
+                else
+                    stack.push(new Pair(i, 30000));
+    
+            }
+            
+        }
+        
+        while(!stack.isEmpty()){
+            ans = Math.max(ans, stack.peek().val);
+            stack.pop();
+        }
+        
+        return ans;
+    }
+}

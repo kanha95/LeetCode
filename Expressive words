@@ -1,0 +1,42 @@
+class Solution {
+    public int expressiveWords(String S, String[] words) {
+        
+     int ans = 0;
+        
+     for(String s: words){
+         int i = 0; // start of s string
+         int j = 0; // start of S string
+         
+         boolean check = true;
+         
+         while(i<s.length()){
+             char current = s.charAt(i);
+             int count = 0;
+             
+             while(j<S.length() && S.charAt(j)==current){
+                 count++;
+                 j++;
+             }
+             
+             int count2 = 1;
+             i++;
+             while(i<s.length() && s.charAt(i)==current){
+                 count2++;
+                 i++;
+             }
+             
+             if(count!=count2 && (count<=2 || count<count2)){
+                 check = false;
+                 break;
+             }
+             
+         }
+         if(check && j==S.length()){
+             ans++;
+         }
+         
+     }
+        
+    return ans;
+    }
+}

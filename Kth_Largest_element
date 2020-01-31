@@ -1,0 +1,62 @@
+class Solution {
+    public int findKthLargest2(int[] nums, int k) {
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        
+        
+        for(int i=0;i<=k-1;i++){
+            pq.add(nums[i]);
+        }
+        
+        for(int i=k; i< nums.length; i++){
+            
+            if(nums[i] > pq.peek()){
+                pq.poll();
+                pq.add(nums[i]);
+            }
+        }
+        return pq.poll();
+        
+    }
+    
+    public int findKthLargest(int[] nums, int k) {
+        
+      int start = 0, end = nums.length-1;
+        
+      while(true){
+          
+          int pivot = nums[end];
+          int j = -1 + start;
+          
+          for(int i=start; i<end; i++){
+              if(nums[i] >= pivot){
+                  j++;
+                  int temp = nums[i];
+                  nums[i] = nums[j];
+                  nums[j] = temp;
+              }       
+          }
+          j++;
+          
+         int temp = nums[end];
+         nums[end] = nums[j];
+         nums[j] = temp;
+          
+          if(j+1 == k){
+              return nums[j];
+          }
+          
+          if(j+1 < k){
+              start = j+1;
+          }
+          else{
+              end = j-1;
+          }
+          
+
+      }
+        
+        
+        
+    }
+}

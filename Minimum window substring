@@ -1,0 +1,42 @@
+class Solution {
+    public String minWindow(String s, String t) {
+   
+        HashMap<Character, Integer> map = new HashMap<>();
+        
+        for(Character c: t.toCharArray()){
+            map.put(c, map.getOrDefault(c,0)-1); //consume char
+        }
+        int left=0,right=0, windowsize=Integer.MAX_VALUE, counter = 0;
+        int head = -1;
+        
+        while(right<s.length()){
+        
+            if(map.containsKey(s.charAt(right))){
+                 
+                if(map.get(s.charAt(right)) < 0) counter++;  //making up for consumption when no stock was there
+                
+                map.put(s.charAt(right), map.get(s.charAt(right)) + 1); //produce char
+            }
+            
+            while(left<=right && counter == t.length()){
+                 if(right-left+1 < windowsize){
+                     windowsize = right-left+1;
+                     head = left;
+                 }
+                 
+                 if(map.containsKey(s.charAt(left))){
+                    
+                     if(map.get(s.charAt(left)) == 0) counter--; //no stock there and going to consume
+                     
+                     map.put(s.charAt(left), map.get(s.charAt(left))-1); //consume char
+                 }
+                 
+                 left++;
+            }
+            
+            right++;
+        }
+      
+        return head==-1?"":s.substring(head, head+windowsize);
+    }
+}
